@@ -519,8 +519,9 @@ export default function ScoreboardEngine({
           </button>
 
           <button
-            onClick={() => undoScore('aka')}
-            className="flex items-center gap-1 px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold border border-white/10 transition cursor-pointer"
+            onClick={undoLastAction}
+            disabled={!interactive || actionHistory.length === 0}
+            className="flex items-center gap-1 px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold border border-white/10 transition cursor-pointer disabled:opacity-30"
           >
             <Undo size={13} /> Undo
           </button>
