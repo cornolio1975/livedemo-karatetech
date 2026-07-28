@@ -32,8 +32,8 @@ export default function LiveDemoPage() {
           <div className="h-6 w-px bg-slate-800 hidden sm:block" />
 
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full overflow-hidden border border-white/20 bg-slate-900 shrink-0">
-              <img src={`${basePath}/logo.jpg`} alt="KarateTech Logo" className="h-full w-full object-cover" />
+            <div className="h-10 w-10 rounded-full overflow-hidden border border-white/20 bg-slate-900 shrink-0" style={{ width: '40px', height: '40px', minWidth: '40px', minHeight: '40px', maxWidth: '40px', maxHeight: '40px' }}>
+              <img src={`${basePath}/logo.jpg`} alt="KarateTech Logo" className="h-full w-full object-cover" style={{ width: '100%', height: '100%', maxWidth: '40px', maxHeight: '40px', objectFit: 'cover', display: 'block' }} />
             </div>
             <div>
               <div className="flex items-center gap-2">
