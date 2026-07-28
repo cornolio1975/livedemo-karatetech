@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-console.log('Building project for Hostinger deployment (no basePath)...');
+console.log('Building project for subdomain deployment (livedemo-karatetech.spsportdatasolution.org, no basePath)...');
 
 try {
   execSync('npx next build', {

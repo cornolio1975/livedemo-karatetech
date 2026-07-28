@@ -1,7 +1,7 @@
 # Hostinger-compatible SPA routing for Next.js static export
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
+  RewriteBase /livedemo/
 
   # Prevent rewriting for real files
   RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -9,7 +9,7 @@
   RewriteRule ^ - [L]
 
   # Rewrite routes to index.html for SPA
-  RewriteRule ^.*$ /index.html [L]
+  RewriteRule ^.*$ /livedemo/index.html [L]
 </IfModule>
 
 # ─── Correct MIME Types ───────────────────────────────────────────────────────
