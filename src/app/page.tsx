@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Trophy, Flame, Users, Calendar, MapPin, ArrowRight, ShieldCheck, 
-  Tv, LogIn, ExternalLink, Activity, Info, Award, Clock, Globe, Sun, Moon
+  Tv, LogIn, ExternalLink, Activity, Info, Award, Clock, Globe, Sun, Moon, Zap
 } from 'lucide-react';
 import { db, basePath } from '@/db/dbClient';
 import { Bout, Participant, Category, Club, Tournament } from '@/db/types';
@@ -239,6 +239,18 @@ export default function LandingPage() {
           <Link href="/public" className="font-bold hover:text-indigo-400 transition-colors">Spectator Hub</Link>
           
           <div className="ml-auto flex items-center gap-5">
+            <Link 
+              href="/demo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 px-2.5 py-1 bg-amber-500/10 border border-amber-500/30 rounded-lg animate-pulse"
+              title="Interactive Live Demo Module"
+            >
+              <Zap size={13} className="text-amber-400" />
+              <span>Live Demo</span>
+              <ExternalLink size={10} className="opacity-60" />
+            </Link>
+
             <a
               href="https://tournamentdisplay.spsportdatasolution.org/"
               target="_blank"
@@ -355,6 +367,16 @@ export default function LandingPage() {
 
             {/* Quick Action Navigation Grid */}
             <div className="flex flex-wrap gap-3 pt-4">
+              <Link 
+                href="/demo" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3 bg-gradient-to-r from-amber-500 via-red-600 to-red-700 hover:from-amber-400 hover:to-red-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-amber-900/30 flex items-center gap-2"
+              >
+                <Zap size={14} className="fill-current text-yellow-300" />
+                <span>Interactive Live Demo</span>
+                <ExternalLink size={12} className="opacity-80" />
+              </Link>
               <Link href="/public/register" className="px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-md shadow-indigo-900/20">
                 Register Participant
               </Link>

@@ -51,9 +51,18 @@ function LayoutShellContent({ children }: { children: React.ReactNode }) {
     }
   }, [pathname]);
 
-  const isPublicOrAuthRoute = pathname === '/' || pathname === '/login' || pathname?.startsWith('/public') || pathname?.startsWith('/auth') || pathname?.startsWith('/display');
+  const isDemoRoute = pathname?.startsWith('/demo');
+  const isAdminOrCoAdmin = isLoggedIn && (userRole === 'Admin' || userRole === 'Co-Admin');
 
-  // If public or auth route, render directly without admin frame
+  const isPublicOrAuthRoute = 
+    pathname === '/' || 
+    pathname === '/login' || 
+    pathname?.startsWith('/public') || 
+    pathname?.startsWith('/auth') || 
+    pathname?.startsWith('/display') ||
+    (isDemoRoute && !isAdminOrCoAdmin);
+
+  // If public, auth, or live demo route (for non-admin users), render directly without admin frame
   if (isPublicOrAuthRoute) {
     return (
       <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
