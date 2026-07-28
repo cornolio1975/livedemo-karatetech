@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   output: 'export',
   trailingSlash: true,
   basePath: basePath,
-  assetPrefix: assetPrefixOverride ?? (basePath ? `${basePath}/` : undefined),
+  assetPrefix: assetPrefixOverride,
   images: {
     unoptimized: true,
   },

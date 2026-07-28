@@ -2,14 +2,14 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-console.log('Building project for GitHub Pages deployment (basePath: /KarateTech)...');
+console.log('Building project for GitHub Pages deployment (basePath: /livedemo-karatetech)...');
 
 try {
   execSync('npx next build', {
     stdio: 'inherit',
     env: {
       ...process.env,
-      NEXT_PUBLIC_BASE_PATH: '/KarateTech'
+      NEXT_PUBLIC_BASE_PATH: '/livedemo-karatetech'
     }
   });
   

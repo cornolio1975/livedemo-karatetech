@@ -3,13 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 function cleanNextCache() {
-  const nextDir = path.join(__dirname, '.next');
-  if (fs.existsSync(nextDir)) {
+  const cacheDir = path.join(__dirname, '.next', 'cache');
+  if (fs.existsSync(cacheDir)) {
     try {
-      fs.rmSync(nextDir, { recursive: true, force: true });
-      console.log('  ✓ Cleared .next build cache');
+      fs.rmSync(cacheDir, { recursive: true, force: true });
+      console.log('  ✓ Cleared .next cache');
     } catch (e) {
-      console.warn('  ⚠ Could not fully clear .next cache:', e.message);
+      console.warn('  ⚠ Could not clear .next cache:', e.message);
     }
   }
 }
