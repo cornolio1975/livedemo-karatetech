@@ -33,9 +33,9 @@ interface TournamentContextType {
   setTournamentName: (name: string) => void;
   liveStreamUrl: string;
   setLiveStreamUrl: (url: string) => void;
-  userRole: 'Admin' | 'Co-Admin' | 'Viewer' | null;
+  userRole: 'Admin' | 'Co-Admin' | 'Viewer' | 'Club' | null;
   isLoggedIn: boolean;
-  login: (role: 'Admin' | 'Co-Admin' | 'Viewer', email?: string) => void;
+  login: (role: 'Admin' | 'Co-Admin' | 'Viewer' | 'Club', email?: string) => void;
   logout: () => void;
   userEmail: string;
   logoUrl: string;
@@ -59,7 +59,7 @@ export interface AccessibilitySettings {
 export interface SystemUser {
   name: string;
   email: string;
-  role: 'Admin' | 'Co-Admin' | 'Viewer';
+  role: 'Admin' | 'Co-Admin' | 'Viewer' | 'Club';
   status: 'Active' | 'Suspended';
   canModify: boolean;
   accessibility: AccessibilitySettings;
@@ -139,7 +139,7 @@ export function TournamentProvider({ children }: { children: React.ReactNode }) 
   const [logoUrl, setLogoUrlState] = useState(`${basePath}/logo.jpg`);
   
   // Auth state
-  const [userRole, setUserRole] = useState<'Admin' | 'Co-Admin' | 'Viewer' | null>(null);
+  const [userRole, setUserRole] = useState<'Admin' | 'Co-Admin' | 'Viewer' | 'Club' | null>(null);
   const [userEmail, setUserEmail] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -193,7 +193,7 @@ export function TournamentProvider({ children }: { children: React.ReactNode }) 
         setLogoUrlState(storedLogo);
       }
 
-      const storedRole = localStorage.getItem('ts_user_role') as 'Admin' | 'Co-Admin' | 'Viewer' | null;
+      const storedRole = localStorage.getItem('ts_user_role') as 'Admin' | 'Co-Admin' | 'Viewer' | 'Club' | null;
       const storedEmail = localStorage.getItem('ts_user_email') || '';
       if (storedRole) {
         setUserRole(storedRole);
@@ -294,7 +294,7 @@ export function TournamentProvider({ children }: { children: React.ReactNode }) 
           const storedEmail = localStorage.getItem('ts_user_email');
           if (storedEmail?.toLowerCase() !== email.toLowerCase()) {
             const storedUsers = localStorage.getItem('ts_users_list');
-            let role: 'Admin' | 'Co-Admin' | 'Viewer' = 'Viewer';
+            let role: 'Admin' | 'Co-Admin' | 'Viewer' | 'Club' = 'Viewer';
             if (storedUsers) {
               try {
                 const list = JSON.parse(storedUsers);
@@ -399,9 +399,9 @@ export function TournamentProvider({ children }: { children: React.ReactNode }) 
     }
   };
 
-  const login = (role: 'Admin' | 'Co-Admin' | 'Viewer', email?: string) => {
+  const login = (role: 'Admin' | 'Co-Admin' | 'Viewer' | 'Club', email?: string) => {
     setUserRole(role);
-    const emailStr = email || (role === 'Admin' ? 'admin@senshikarate.com' : role === 'Co-Admin' ? 'coadmin@senshikarate.com' : 'spectator@senshikarate.com');
+    const emailStr = email || (role === 'Admin' ? 'admin@senshikarate.com' : role === 'Co-Admin' ? 'coadmin@senshikarate.com' : role === 'Club' ? 'club@senshikarate.com' : 'spectator@senshikarate.com');
     setUserEmail(emailStr);
     setIsLoggedIn(true);
     if (typeof window !== 'undefined') {

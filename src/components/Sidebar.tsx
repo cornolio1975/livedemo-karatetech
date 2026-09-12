@@ -12,24 +12,25 @@ import { useTournament } from '@/context/TournamentContext';
 import { basePath } from '@/db/dbClient';
 
 const MENU_ITEMS = [
-  { name: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
-  { name: 'Participants', icon: Users, path: '/participants' },
-  { name: 'Teams', icon: UsersRound, path: '/teams' },
-  { name: 'Dojos', icon: Award, path: '/clubs' },
-  { name: 'Categories', icon: Tags, path: '/categories' },
-  { name: 'Draws', icon: GitPullRequest, path: '/draws', badge: 'Draft' },
-  { name: 'Schedule', icon: CalendarDays, path: '/schedule' },
-  { name: 'Bouts', icon: Sword, path: '/bouts' },
-  { name: 'Kumite S-Board', icon: Zap, path: '/dashboard/scoreboard', badge: 'WKF', isYellow: true },
-  { name: 'Kata S-Board', icon: Award, path: '/dashboard/kata-control', badge: 'WKF', isYellow: true },
-  { name: 'Live Demo', icon: Zap, path: '/', badge: 'Demo', isYellow: true },
-  { name: 'Officials', icon: ShieldCheck, path: '/officials' },
-  { name: 'Public Scoreboard', icon: Tv, path: '/public', badge: 'Live' },
-  { name: 'Upcoming Tournaments', icon: CalendarCheck, path: '/public/tournaments', badge: 'New' },
-  { name: 'Past Tournaments', icon: History, path: '/public/past-tournaments' },
-  { name: 'Tournaments Admin', icon: Trophy, path: '/admin/tournaments', badge: 'Admin' },
-  { name: 'Reports', icon: FileText, path: '/reports' },
-  { name: 'Settings', icon: Settings, path: '/settings' },
+  { name: 'Dashboard', icon: LayoutDashboard, path: '/admin', adminOnly: true },
+  { name: 'Participants', icon: Users, path: '/participants', adminOnly: true },
+  { name: 'My Participants', icon: UsersRound, path: '/registration/entry', clubOnly: true },
+  { name: 'Teams', icon: UsersRound, path: '/teams', adminOnly: true },
+  { name: 'Dojos', icon: Award, path: '/clubs', adminOnly: true },
+  { name: 'Categories', icon: Tags, path: '/categories', adminOnly: true },
+  { name: 'Draws', icon: GitPullRequest, path: '/draws', badge: 'Draft', adminOnly: true },
+  { name: 'Schedule', icon: CalendarDays, path: '/schedule', adminOnly: true },
+  { name: 'Bouts', icon: Sword, path: '/bouts', adminOnly: true },
+  { name: 'Kumite S-Board', icon: Zap, path: '/dashboard/scoreboard', badge: 'WKF', isYellow: true, adminOnly: true },
+  { name: 'Kata S-Board', icon: Award, path: '/dashboard/kata-control', badge: 'WKF', isYellow: true, adminOnly: true },
+  { name: 'Live Demo', icon: Zap, path: '/', badge: 'Demo', isYellow: true, adminOnly: true },
+  { name: 'Officials', icon: ShieldCheck, path: '/officials', adminOnly: true },
+  { name: 'Public Scoreboard', icon: Tv, path: '/public', badge: 'Live', adminOnly: true },
+  { name: 'Upcoming Tournaments', icon: CalendarCheck, path: '/public/tournaments', badge: 'New', adminOnly: true },
+  { name: 'Past Tournaments', icon: History, path: '/public/past-tournaments', adminOnly: true },
+  { name: 'Tournaments Admin', icon: Trophy, path: '/admin/tournaments', badge: 'Admin', adminOnly: true },
+  { name: 'Reports', icon: FileText, path: '/reports', adminOnly: true },
+  { name: 'Settings', icon: Settings, path: '/settings', adminOnly: true },
 ];
 
 
@@ -86,7 +87,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
-        {MENU_ITEMS.map((item) => {
+        {MENU_ITEMS.filter((item) => {
+          if (userRole === 'Club') return !item.adminOnly;
+          return !item.clubOnly;
+        }).map((item) => {
           const isActive = pathname === item.path;
           const Icon = item.icon;
           const isYellow = item.isYellow;

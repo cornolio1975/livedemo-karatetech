@@ -56,7 +56,7 @@ export default function SettingsPage() {
   // 3. User editing state
   const [editingUserEmail, setEditingUserEmail] = useState<string | null>(null);
   const [editUserName, setEditUserName] = useState('');
-  const [editUserRole, setEditUserRole] = useState<'Admin' | 'Co-Admin' | 'Viewer'>('Co-Admin');
+  const [editUserRole, setEditUserRole] = useState<'Admin' | 'Co-Admin' | 'Viewer' | 'Club'>('Viewer');
   const [editUserStatus, setEditUserStatus] = useState<'Active' | 'Suspended'>('Active');
   const [editUserCanModify, setEditUserCanModify] = useState(false);
   const [editUserAccessibility, setEditUserAccessibility] = useState<AccessibilitySettings>({
@@ -927,12 +927,13 @@ export default function SettingsPage() {
                 <label className="text-[10px] font-bold text-muted-foreground block">Access Role</label>
                 <select
                   value={editUserRole}
-                  onChange={(e) => setEditUserRole(e.target.value as any)}
+                  onChange={(e) => setEditUserRole(e.target.value as 'Admin' | 'Co-Admin' | 'Viewer' | 'Club')}
                   className="w-full px-3 py-2 bg-card border border-border rounded-lg text-xs focus:outline-none text-foreground dark:bg-neutral-800"
                 >
                   <option value="Admin">Admin</option>
                   <option value="Co-Admin">Co-Admin</option>
                   <option value="Viewer">Viewer</option>
+                  <option value="Club">Club</option>
                 </select>
               </div>
               <div className="space-y-1">

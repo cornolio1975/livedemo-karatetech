@@ -11,8 +11,8 @@ import { supabase, isSupabaseConfigured, basePath } from '@/db/dbClient';
 export default function LoginPage() {
   const { login, usersList, addUser, logoUrl } = useTournament();
   
-  // Tab roles: 'Admin' | 'Co-Admin' | 'Viewer'
-  const [activeRole, setActiveRole] = useState<'Admin' | 'Co-Admin' | 'Viewer'>('Viewer');
+  // Tab roles: 'Admin' | 'Co-Admin' | 'Viewer' | 'Club'
+  const [activeRole, setActiveRole] = useState<'Admin' | 'Co-Admin' | 'Viewer' | 'Club'>('Viewer');
   
   // Modes: 'signIn' | 'signUp' | 'forgotPassword'
   const [mode, setMode] = useState<'signIn' | 'signUp' | 'forgotPassword'>('signIn');
@@ -95,7 +95,7 @@ export default function LoginPage() {
               emailRedirectTo: window.location.origin + basePath + '/auth/callback',
               data: {
                 name: name.trim(),
-                role: 'Viewer',
+                role: activeRole,
               }
             }
           });
@@ -110,7 +110,7 @@ export default function LoginPage() {
           const newUser = {
             name: name.trim(),
             email: email.trim(),
-            role: 'Viewer' as const,
+            role: activeRole,
             status: 'Active' as const,
             canModify: false,
             accessibility: {
@@ -123,8 +123,15 @@ export default function LoginPage() {
           addUser(newUser);
 
           if (data.session) {
-            login('Viewer', email.trim());
-            window.location.href = `${basePath}/public`;
+            login(activeRole, email.trim());
+            const searchParams = new URLSearchParams(window.location.search);
+            const redirectUrl = searchParams.get('redirect');
+            if (redirectUrl) {
+              const eventParam = searchParams.get('event');
+              window.location.href = `${basePath}${redirectUrl}${eventParam ? `?event=${eventParam}` : ''}`;
+            } else {
+              window.location.href = `${basePath}/public`;
+            }
           } else {
             setMessage('Registration successful! Please check your email to confirm your account.');
           }
@@ -144,8 +151,15 @@ export default function LoginPage() {
             }
           };
           addUser(newUser);
-          login('Viewer', email.trim());
-          window.location.href = `${basePath}/public`;
+          login(activeRole, email.trim());
+          const searchParams = new URLSearchParams(window.location.search);
+          const redirectUrl = searchParams.get('redirect');
+          if (redirectUrl) {
+            const eventParam = searchParams.get('event');
+            window.location.href = `${basePath}${redirectUrl}${eventParam ? `?event=${eventParam}` : ''}`;
+          } else {
+            window.location.href = `${basePath}/public`;
+          }
         }
         setLoading(false);
         return;
@@ -202,7 +216,14 @@ export default function LoginPage() {
         }
 
         login(matchedUser.role, matchedUser.email);
-        window.location.href = `${basePath}/admin`;
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirectUrl = searchParams.get('redirect');
+        if (redirectUrl) {
+          const eventParam = searchParams.get('event');
+          window.location.href = `${basePath}${redirectUrl}${eventParam ? `?event=${eventParam}` : ''}`;
+        } else {
+          window.location.href = `${basePath}/admin`;
+        }
       } else {
         // Mock Sign In
         const userObj = usersList.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
@@ -225,7 +246,14 @@ export default function LoginPage() {
         }
 
         login(activeRole, userObj.email);
-        window.location.href = `${basePath}/admin`;
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirectUrl = searchParams.get('redirect');
+        if (redirectUrl) {
+          const eventParam = searchParams.get('event');
+          window.location.href = `${basePath}${redirectUrl}${eventParam ? `?event=${eventParam}` : ''}`;
+        } else {
+          window.location.href = `${basePath}/admin`;
+        }
       }
     } catch (err: any) {
       setError(err?.message || 'An unexpected error occurred.');
@@ -236,6 +264,8 @@ export default function LoginPage() {
 
   const getRoleHelpText = () => {
     switch (activeRole) {
+      case 'Club':
+        return 'Register your club and participants for the tournament.';
       case 'Admin':
         return 'Full control panel access. Configure events, brackets, and manage all participants.';
       case 'Co-Admin':
@@ -338,6 +368,7 @@ export default function LoginPage() {
             {mode !== 'forgotPassword' && (
               <div className="bg-black/40 p-1.5 rounded-2xl w-full border border-white/5 relative flex shadow-inner">
                 {[
+                  { id: 'Club', label: 'Club Reg', icon: Users },
                   { id: 'Viewer', label: 'Spectator', icon: Users },
                   { id: 'Co-Admin', label: 'Tatami', icon: Shield },
                   { id: 'Admin', label: 'Director', icon: Shield }
