@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { db, basePath } from '@/db/dbClient';
 import { Tournament } from '@/db/types';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 
-export default function RegistrationStartPage() {
+function RegistrationStartContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
@@ -157,5 +157,17 @@ export default function RegistrationStartPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegistrationStartPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+      </div>
+    }>
+      <RegistrationStartContent />
+    </Suspense>
   );
 }
